@@ -1,8 +1,4 @@
-# Spring-Boot-RESTFull-API
-
-Hibernate
-Spring Boot, Data, MVC
-JUnit
+# Spring-Boot-RESTFull-API JAVA
 
 ### Problem definition
 Створити невеликий RESTful веб сервіс, який буде відповідати наступним бізнес вимогам:
