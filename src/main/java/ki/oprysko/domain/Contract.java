@@ -20,17 +20,17 @@ public class Contract {
     private Country country;
 
     @ManyToOne
-    @JoinColumn(name="person_id")
-    private Person person;
+    @JoinColumn(name="user_id")
+    private User user;
 
     public Contract() {
     }
 
-    public Contract(String term, Country country, Person person) {
+    public Contract(String term, Country country, User user) {
         this();
         this.term = term;
         this.country = country;
-        this.person = person;
+        this.user = user;
     }
 
     public int getId() {
@@ -57,12 +57,12 @@ public class Contract {
         this.country = country;
     }
 
-    public Person getPerson() {
-        return person;
+    public User getUser() {
+        return user;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -2,14 +2,14 @@ package ki.oprysko.service;
 
 import ki.oprysko.domain.Country;
 import ki.oprysko.domain.Contract;
-import ki.oprysko.domain.Person;
+import ki.oprysko.domain.User;
 import ki.oprysko.repository.CountryRepository;
+import ki.oprysko.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ki.oprysko.repository.PersonRepository;
 
 import java.util.List;
 
@@ -22,29 +22,29 @@ import static org.junit.Assert.*;
 public class ContractServiceTest {
 
     @Autowired
-    private PersonRepository persons;
+    private CountryRepository countries;
 
     @Autowired
-    private CountryRepository countries;
+    private UserRepository users;
 
     @Autowired
     private LoanService service;
 
     @Test
     public void whenApplyLoadThenSaveInDb() {
-        Person person = this.persons.save(new Person("Svyatoslav", "Oprysko"));
+        User user = this.users.save(new User("Svyatoslav", "Oprysko"));
         Country country = this.countries.save(new Country("Ukraine"));
-        Contract contract = this.service.apply(new Contract("",  country, person));
+        Contract contract = this.service.apply(new Contract("",  country, user));
         List<Contract> result = this.service.getAll();
         assertTrue(result.contains(contract));
     }
 
     @Test
     public void whenFindByPersonThenReturnListOnlyForRerson() {
-        Person person = this.persons.save(new Person("Svyatoslav", "Oprysko"));
+        User user = this.users.save(new User("Svyatoslav", "Oprysko"));
         Country country = this.countries.save(new Country("Ukraine"));
-        Contract contract = this.service.apply(new Contract("", country, person));
-        List<Contract> result = this.service.getByPerson(person.getId());
+        Contract contract = this.service.apply(new Contract("", country, user));
+        List<Contract> result = this.service.getByUser(user.getId());
         assertThat(result.iterator().next(), is(contract));
     }
 

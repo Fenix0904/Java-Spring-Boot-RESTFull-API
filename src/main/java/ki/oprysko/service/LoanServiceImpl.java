@@ -2,7 +2,7 @@ package ki.oprysko.service;
 
 import com.google.common.collect.Lists;
 import ki.oprysko.domain.Contract;
-import ki.oprysko.domain.Person;
+import ki.oprysko.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ki.oprysko.repository.ContractRepository;
@@ -29,7 +29,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public List<Contract> getByPerson(int personId) {
-        return this.repository.findByPerson(new Person(personId));
+    public List<Contract> getByUser(int personId) {
+        return this.repository.findByUser(new User(personId));
     }
 }

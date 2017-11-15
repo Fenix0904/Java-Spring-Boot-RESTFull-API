@@ -1,4 +1,4 @@
-package ki.oprysko.web;
+package ki.oprysko.web.controller;
 import ki.oprysko.domain.Contract;
 import ki.oprysko.web.forms.Error;
 import ki.oprysko.web.forms.Success;
@@ -23,26 +23,26 @@ public class LoanController {
         this.blacklists = blacklists;
     }
 
-    @PostMapping("/")
+    @PostMapping("/apply")
     public Result apply(@RequestBody Contract contract) {
         final Result result;
-        if (!this.blacklists.isBlackListPerson(contract.getPerson().getId())) {
+        if (!this.blacklists.isBlackListPerson(contract.getUser().getId())) {
             result = new Success<>(
                     this.loans.apply(contract)
             );
         } else {
-            result = new Error(String.format("User %s in blacklist", contract.getPerson().getId()));
+            result = new Error(String.format("User %s in blacklist", contract.getUser().getId()));
         }
         return result;
     }
 
-    @GetMapping("/")
+    @GetMapping("/get-all-contracts")
     public List<Contract> getAll() {
         return this.loans.getAll();
     }
 
     @GetMapping("/{personId}")
     public List<Contract> findByPersonId(@PathVariable int personId) {
-        return this.loans.getByPerson(personId);
+        return this.loans.getByUser(personId);
     }
 }

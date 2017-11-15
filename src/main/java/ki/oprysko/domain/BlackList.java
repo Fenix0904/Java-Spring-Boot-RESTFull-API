@@ -9,15 +9,15 @@ public class BlackList {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="person_id")
-    private Person person;
+    @JoinColumn(name="user_id")
+    private User user;
 
     public BlackList() {
     }
 
-    public BlackList(Person person) {
+    public BlackList(User user) {
         this();
-        this.person = person;
+        this.user = user;
     }
 
     public int getId() {
@@ -28,12 +28,12 @@ public class BlackList {
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
+    public User getUser() {
+        return user;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

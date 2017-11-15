@@ -3,9 +3,10 @@ package ki.oprysko.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ki.oprysko.domain.Country;
 import ki.oprysko.domain.Contract;
-import ki.oprysko.domain.Person;
-import ki.oprysko.service.LimitService;
-import ki.oprysko.service.LoanService;
+import ki.oprysko.domain.User;
+import ki.oprysko.repository.RoleRepository;
+import ki.oprysko.service.*;
+import ki.oprysko.web.controller.LoanController;
 import ki.oprysko.web.forms.Error;
 import ki.oprysko.web.forms.Success;
 import org.junit.Test;
@@ -14,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import ki.oprysko.service.BlackListService;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,13 @@ public class ContractControllerTest {
     private MockMvc mvc;
 
     @MockBean
+    private UserService userService;
+
+    @MockBean
     private BlackListService blacks;
+
+    @MockBean
+    private RoleRepository roleRepository;
 
     @MockBean
     private LoanService loans;
@@ -42,15 +49,18 @@ public class ContractControllerTest {
     @MockBean
     private LimitService limit;
 
+
+
     @Test
+    @WithMockUser(username="Fenix0904")
     public void whenPersonNotInBlackListThenApplyContract() throws Exception {
         List<Contract> list = Collections.singletonList(
-                new Contract("test",  new Country("Ukraine"), new Person("Svyatoslav", "Oprysko"))
+                new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"))
         );
         ObjectMapper mapper = new ObjectMapper();
         given(this.loans.getAll()).willReturn(list);
         this.mvc.perform(
-                get("/").accept(MediaType.APPLICATION_JSON_UTF8)
+                get("/get-all-contracts").accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(
                 status().isOk()
         ).andExpect(
@@ -59,12 +69,13 @@ public class ContractControllerTest {
     }
 
     @Test
+    @WithMockUser(username="Fenix0904")
     public void whenLoadThenApplyContract() throws Exception {
         List<Contract> list = Collections.singletonList(
-                new Contract("test",  new Country("Ukraine"), new Person("Svyatoslav", "Oprysko"))
+                new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"))
         );
         ObjectMapper mapper = new ObjectMapper();
-        given(this.loans.getByPerson(0)).willReturn(list);
+        given(this.loans.getByUser(0)).willReturn(list);
         this.mvc.perform(
                 get("/0").accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(
@@ -75,13 +86,14 @@ public class ContractControllerTest {
     }
 
     @Test
+    @WithMockUser(username="Fenix0904")
     public void whenApplyThenSave() throws Exception {
-        Contract contract = new Contract("test",  new Country("Ukraine"), new Person("Svyatoslav", "Oprysko"));
+        Contract contract = new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"));
         ObjectMapper mapper = new ObjectMapper();
         given(this.blacks.isBlackListPerson(0)).willReturn(false);
         given(this.loans.apply(contract)).willReturn(contract);
         this.mvc.perform(
-                post("/").contentType(MediaType.APPLICATION_JSON_UTF8).content(
+                post("/apply").contentType(MediaType.APPLICATION_JSON_UTF8).content(
                         mapper.writeValueAsString(
                                 contract
                         )
@@ -89,8 +101,9 @@ public class ContractControllerTest {
         ).andExpect(
                 status().isOk()
         ).andExpect(
-                content().string(mapper.writeValueAsString(new Success<Contract>(contract)))
+                content().string(mapper.writeValueAsString(new Success<>(contract)))
         );
+        System.out.println(mapper.writeValueAsString(contract));
     }
 
     @Test
@@ -100,7 +113,7 @@ public class ContractControllerTest {
         this.mvc.perform(
                 post("/").contentType(MediaType.APPLICATION_JSON_UTF8).content(
                         mapper.writeValueAsString(
-                                new Contract("test",  new Country("Ukraine"), new Person("Svyatoslav", "Oprysko"))
+                                new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"))
                         )
                 )
         ).andExpect(
