@@ -28,7 +28,7 @@ public class ContractServiceTest {
     private UserRepository users;
 
     @Autowired
-    private LoanService service;
+    private ContractService service;
 
     @Test
     public void whenApplyLoadThenSaveInDb() {

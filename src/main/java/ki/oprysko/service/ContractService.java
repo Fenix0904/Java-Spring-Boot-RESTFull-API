@@ -17,7 +17,7 @@ import java.util.List;
 
  * @author Svyatoslav Oprysko
  */
-public interface LoanService {
+public interface ContractService {
     Contract apply(Contract contract);
 
     List<Contract> getAll();

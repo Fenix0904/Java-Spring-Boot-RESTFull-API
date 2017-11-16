@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ki.oprysko.service.BlackListService;
-import ki.oprysko.service.LoanService;
+import ki.oprysko.service.ContractService;
 import ki.oprysko.web.forms.Result;
 
 import java.util.List;
@@ -17,12 +17,12 @@ import java.util.List;
 @RestController
 public class LoanController {
 
-    private final LoanService loans;
+    private final ContractService loans;
     private final UserService userService;
     private final BlackListService blacklists;
 
     @Autowired
-    public LoanController(final LoanService loans, final BlackListService blacklists, UserService userService) {
+    public LoanController(final ContractService loans, final BlackListService blacklists, UserService userService) {
         this.loans = loans;
         this.blacklists = blacklists;
         this.userService = userService;

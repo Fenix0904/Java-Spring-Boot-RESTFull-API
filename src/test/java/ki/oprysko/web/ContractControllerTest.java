@@ -44,7 +44,7 @@ public class ContractControllerTest {
     private RoleRepository roleRepository;
 
     @MockBean
-    private LoanService loans;
+    private ContractService loans;
 
     @MockBean
     private LimitService limit;

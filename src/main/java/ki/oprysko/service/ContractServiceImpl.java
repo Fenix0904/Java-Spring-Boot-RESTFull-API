@@ -10,11 +10,11 @@ import ki.oprysko.repository.ContractRepository;
 import java.util.List;
 
 @Service
-public class LoanServiceImpl implements LoanService {
+public class ContractServiceImpl implements ContractService {
     private final ContractRepository repository;
 
     @Autowired
-    public LoanServiceImpl(final ContractRepository repository) {
+    public ContractServiceImpl(final ContractRepository repository) {
         this.repository = repository;
     }
 
