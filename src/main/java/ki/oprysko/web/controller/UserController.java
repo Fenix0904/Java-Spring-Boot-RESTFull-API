@@ -1,5 +1,6 @@
 package ki.oprysko.web.controller;
 
+import ki.oprysko.service.BlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,10 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ki.oprysko.domain.User;
 import ki.oprysko.service.SecurityService;
 import ki.oprysko.service.UserService;
@@ -29,13 +27,15 @@ public class UserController {
     private final SecurityService securityService;
     private final UserRegistrationValidator userRegistrationValidator;
     private final UserLoginValidator userLoginValidator;
+    private final BlackListService blackListService;
 
     @Autowired
-    public UserController(UserService userService, SecurityService securityService, UserRegistrationValidator userRegistrationValidator, UserLoginValidator userLoginValidator) {
+    public UserController(UserService userService, SecurityService securityService, UserRegistrationValidator userRegistrationValidator, UserLoginValidator userLoginValidator, BlackListService blackListService) {
         this.userService = userService;
         this.securityService = securityService;
         this.userRegistrationValidator = userRegistrationValidator;
         this.userLoginValidator = userLoginValidator;
+        this.blackListService = blackListService;
     }
 
     @PostMapping(value = "/registration")
@@ -73,5 +73,14 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/ban/{userId}")
+    public ResponseEntity<Void> addUserToBlackList(@PathVariable int userId) {
+        User user = userService.findById(userId);
+        if (!this.blackListService.isBlackListPerson(user.getId())) {
+            blackListService.addUser(user);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

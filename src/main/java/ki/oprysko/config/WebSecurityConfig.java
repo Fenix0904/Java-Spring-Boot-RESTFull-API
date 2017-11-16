@@ -29,11 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/*").permitAll()
-                .antMatchers("/all").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+                .antMatchers("/all").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/login").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/out").permitAll()
                 .antMatchers("/apply").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .antMatchers("/get-all-contracts").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-                .antMatchers("/{personId}").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+                .antMatchers("/{userId}").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+                .antMatchers("/ban/{userId}").access("hasRole('ROLE_ADMIN')")
                 .and()
                 .csrf().disable();
     }

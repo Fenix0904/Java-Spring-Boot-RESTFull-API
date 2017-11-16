@@ -19,6 +19,7 @@ public class Contract {
     @JoinColumn(name="country_id")
     private Country country;
 
+    @Transient
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

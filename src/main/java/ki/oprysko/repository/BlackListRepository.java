@@ -5,6 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import ki.oprysko.domain.User;
 
 public interface BlackListRepository extends CrudRepository<BlackList, Integer> {
-
     BlackList findByUser(User user);
 }

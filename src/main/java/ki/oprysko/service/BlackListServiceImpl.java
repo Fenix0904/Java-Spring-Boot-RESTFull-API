@@ -1,5 +1,6 @@
 package ki.oprysko.service;
 
+import ki.oprysko.domain.BlackList;
 import ki.oprysko.repository.BlackListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,10 @@ public class BlackListServiceImpl implements BlackListService {
     @Override
     public boolean isBlackListPerson(int personId) {
         return this.repository.findByUser(new User(personId)) != null;
+    }
+
+    @Override
+    public void addUser(User user) {
+        repository.save(new BlackList(user));
     }
 }

@@ -107,11 +107,12 @@ public class ContractControllerTest {
     }
 
     @Test
+    @WithMockUser(username="Fenix0904")
     public void whenInBlacklistThenError() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         given(this.blacks.isBlackListPerson(0)).willReturn(true);
         this.mvc.perform(
-                post("/").contentType(MediaType.APPLICATION_JSON_UTF8).content(
+                post("/apply").contentType(MediaType.APPLICATION_JSON_UTF8).content(
                         mapper.writeValueAsString(
                                 new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"))
                         )
