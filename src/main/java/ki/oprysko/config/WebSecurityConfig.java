@@ -1,5 +1,6 @@
 package ki.oprysko.config;
 
+import ki.oprysko.web.LimitFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
+    private final LimitFilter filter;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsService userDetailsService) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, LimitFilter filter) {
         this.userDetailsService = userDetailsService;
+        this.filter = filter;
     }
 
     @Autowired
@@ -29,7 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/out").permitAll()
                 .antMatchers("/all").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/apply").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .antMatchers("/get-all-contracts").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")

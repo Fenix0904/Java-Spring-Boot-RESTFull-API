@@ -31,6 +31,7 @@ public class UserLoginValidator implements Validator {
         User temp = userService.findByUsername(user.getUsername());
         if (temp == null) {
             errors.rejectValue("username", "User not found!");
+            return;
         }
         if (!passwordEncoder.matches(user.getPassword(), temp.getPassword())){
             errors.rejectValue("confirmPassword", "Different.userForm.password");

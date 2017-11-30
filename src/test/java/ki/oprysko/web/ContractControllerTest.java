@@ -55,7 +55,7 @@ public class ContractControllerTest {
     @WithMockUser(username="Fenix0904")
     public void whenPersonNotInBlackListThenApplyContract() throws Exception {
         List<Contract> list = Collections.singletonList(
-                new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"))
+                new Contract("test", new Country("Ukraine"), new User())
         );
         ObjectMapper mapper = new ObjectMapper();
         given(this.loans.getAll()).willReturn(list);
@@ -72,7 +72,7 @@ public class ContractControllerTest {
     @WithMockUser(username="Fenix0904")
     public void whenLoadThenApplyContract() throws Exception {
         List<Contract> list = Collections.singletonList(
-                new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"))
+                new Contract("test", new Country("Ukraine"), new User())
         );
         ObjectMapper mapper = new ObjectMapper();
         given(this.loans.getByUser(0)).willReturn(list);
@@ -88,7 +88,7 @@ public class ContractControllerTest {
     @Test
     @WithMockUser(username="Fenix0904")
     public void whenApplyThenSave() throws Exception {
-        Contract contract = new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"));
+        Contract contract = new Contract("test", new Country("Ukraine"), new User());
         ObjectMapper mapper = new ObjectMapper();
         given(this.blacks.isBlackListPerson(0)).willReturn(false);
         given(this.loans.apply(contract)).willReturn(contract);
@@ -114,7 +114,7 @@ public class ContractControllerTest {
         this.mvc.perform(
                 post("/apply").contentType(MediaType.APPLICATION_JSON_UTF8).content(
                         mapper.writeValueAsString(
-                                new Contract("test", new Country("Ukraine"), new User("Svyatoslav", "Oprysko"))
+                                new Contract("test", new Country("Ukraine"), new User())
                         )
                 )
         ).andExpect(

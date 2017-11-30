@@ -9,7 +9,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String surname;
 
     @Column(name = "username")
     private String username;
@@ -30,14 +29,6 @@ public class User {
         this.id = id;
     }
 
-    public User(String name, String surname) {
-        this();
-        this.name = name;
-        this.surname = surname;
-    }
-
-
-
     public int getId() {
         return id;
     }
@@ -52,14 +43,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getUsername() {
@@ -82,10 +65,6 @@ public class User {
         return confirmPassword;
     }
 
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -102,7 +81,6 @@ public class User {
         User user = (User) o;
 
         return id == user.id;
-
     }
 
     @Override

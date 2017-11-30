@@ -1,5 +1,7 @@
 package ki.oprysko.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -15,6 +17,7 @@ public class Contract {
 
     private String term;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="country_id")
     private Country country;

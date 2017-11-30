@@ -2,8 +2,11 @@ package ki.oprysko.web.controller;
 
 import ki.oprysko.service.BlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -44,11 +47,11 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
         userService.save(user);
         securityService.autoLogin(user.getUsername(), user.getConfirmPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @PostMapping(value = "/login")
     public ResponseEntity<Void> login(@RequestBody User user, BindingResult bindingResult) {
@@ -61,29 +64,25 @@ public class UserController {
     }
 
     @GetMapping(value = "/out")
-    //@ResponseStatus()
-    public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping(value = "/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
+
 
     @PostMapping(value = "/ban/{userId}")
-    public ResponseEntity<Void> addUserToBlackList(@PathVariable int userId) {
+    public void addUserToBlackList(@PathVariable int userId) {
         User user = userService.findById(userId);
         if (!this.blackListService.isBlackListPerson(user.getId())) {
             blackListService.addUser(user);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    //@ExceptionHandler()
 }

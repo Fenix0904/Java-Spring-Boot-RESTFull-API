@@ -1,6 +1,7 @@
 package ki.oprysko.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ki.oprysko.web.forms.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ki.oprysko.service.LimitService;
@@ -10,7 +11,9 @@ import java.io.IOException;
 import java.util.Locale;
 
 @Component
-public class LimitFilter implements Filter {
+public class LimitFilter {
+    /*
+        implements Filter {
     private final LimitService service;
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -38,4 +41,6 @@ public class LimitFilter implements Filter {
     @Override
     public void destroy() {
     }
+    */
 }
+

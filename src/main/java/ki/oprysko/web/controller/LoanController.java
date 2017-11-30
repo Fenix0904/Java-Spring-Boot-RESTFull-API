@@ -5,6 +5,7 @@ import ki.oprysko.service.UserService;
 import ki.oprysko.web.forms.Error;
 import ki.oprysko.web.forms.Success;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

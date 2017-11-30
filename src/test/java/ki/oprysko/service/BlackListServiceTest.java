@@ -26,7 +26,7 @@ public class BlackListServiceTest {
 
     @Test
     public void whenPersonInBlackListThenReturnTrue() {
-        User user = this.users.save(new User("Svyatoslav", "Oprysko"));
+        User user = this.users.save(new User());
         this.blacklists.save(new BlackList(user));
         boolean result = this.service.isBlackListPerson(user.getId());
         assertTrue(result);
@@ -34,7 +34,7 @@ public class BlackListServiceTest {
 
     @Test
     public void whenBlackListEmptyThenAnyPersonNotIn() {
-        User user = this.users.save(new User("Svyatoslav", "Oprysko"));
+        User user = this.users.save(new User());
         boolean result = this.service.isBlackListPerson(user.getId());
         assertFalse(result);
     }

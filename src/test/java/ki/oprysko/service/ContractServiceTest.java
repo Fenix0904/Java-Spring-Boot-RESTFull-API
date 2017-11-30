@@ -32,7 +32,7 @@ public class ContractServiceTest {
 
     @Test
     public void whenApplyLoadThenSaveInDb() {
-        User user = this.users.save(new User("Svyatoslav", "Oprysko"));
+        User user = this.users.save(new User());
         Country country = this.countries.save(new Country("Ukraine"));
         Contract contract = this.service.apply(new Contract("",  country, user));
         List<Contract> result = this.service.getAll();
@@ -41,7 +41,7 @@ public class ContractServiceTest {
 
     @Test
     public void whenFindByPersonThenReturnListOnlyForRerson() {
-        User user = this.users.save(new User("Svyatoslav", "Oprysko"));
+        User user = this.users.save(new User());
         Country country = this.countries.save(new Country("Ukraine"));
         Contract contract = this.service.apply(new Contract("", country, user));
         List<Contract> result = this.service.getByUser(user.getId());
