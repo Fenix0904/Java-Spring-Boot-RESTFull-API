@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.util.Locale;
 
 @Component
-public class LimitFilter {
-    /*
-        implements Filter {
+public class LimitFilter implements Filter
+
+{
     private final LimitService service;
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -27,7 +27,8 @@ public class LimitFilter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws
+            IOException, ServletException {
         Locale locale = req.getLocale();
         if (!this.service.isLimit(locale != null ? locale.getCountry() : "lv")) {
             chain.doFilter(req, res);
@@ -41,6 +42,6 @@ public class LimitFilter {
     @Override
     public void destroy() {
     }
-    */
+
 }
 
